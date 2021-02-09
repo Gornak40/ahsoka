@@ -30,7 +30,6 @@ class Ahsoka(QWidget):
 	def init(self):
 		self.setWindowTitle('Ahsoka')
 		self.setWindowIcon(QIcon('icon.png'))
-	#	self.resize(800, 500)
 		self.urlLabel = QLabel('Ссылка:')
 		self.nameLabel = QLabel('Название:')
 		self.urlEdit = QLineEdit()
@@ -48,7 +47,7 @@ class Ahsoka(QWidget):
 		self.playBtn.clicked.connect(self.play)
 		self.statusBar = QStatusBar()
 		self.statusBar.setStyleSheet('color: green')
-		self.statusBar.showMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka!')
+		self.statusBar.showMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka')
 
 	def place(self):
 		self.grid = QGridLayout()
