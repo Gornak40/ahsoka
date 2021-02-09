@@ -16,3 +16,4 @@ Best laucher for downloading and running .swf games for Flash player.
 * all your progress is saving
 * you can paste not only webtite url, but also a direct *.swf* link
 * works both on *Linux* and *Windows*
+* you can add your own games or rename downloaded in ```games``` folder
