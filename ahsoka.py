@@ -91,9 +91,13 @@ class Ahsoka(QWidget):
 		name = self.nameEdit.text()
 		req = get(url)
 		self.statusBar.showMessage(str(req))
-		html = req.content.decode('utf-8')
-		swf = findall(r'\".+\.swf\"', html)[0][1:-1]
+		try:
+			html = req.content.decode('utf-8')
+		except:
+			html = req.content.decode('cp1251')
+		swf = findall(r'\".[^"]+\.swf\"', html)[0][1:-1]
 		swf = urljoin(url, swf)
+		print(swf)
 		self.statusBar.showMessage('Скачивание...')
 		args = swf,
 		kwargs = {'out': 'games/'} if not name else {'out': getGamePath(name)}
