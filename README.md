@@ -17,3 +17,4 @@
 * you can paste not only webtite url, but also a direct *.swf* link
 * works both on *Linux* and *Windows*
 * you can add your own games or rename downloaded in ```games``` folder
+* you can resize the window
