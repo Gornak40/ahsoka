@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 	QVBoxLayout
 	)
 from PyQt5.QtGui import QIcon
-from os import listdir, remove, system
+from os import listdir, remove, system, mkdir
 from pprint import pprint
 from requests import get
 from fake_useragent import UserAgent
@@ -71,7 +71,7 @@ class Ahsoka(QWidget):
 
 	def setEngines(self):
 		enginesLayout = QVBoxLayout()
-		for engine in sorted(listdir('engines')):
+		for engine in ['flashplayer']:
 			btn = QRadioButton(engine.capitalize())
 			if 'flashplayer' in engine:
 				btn.setChecked(True)
@@ -117,13 +117,15 @@ class Ahsoka(QWidget):
 		game = self.gamesList.currentItem()
 		if game is None:
 			return
-		args = f'engines/flashplayer \"{getGamePath(game.text())}\"',
+		args = f'./flashplayer \"{getGamePath(game.text())}\"',
 		self.statusBar.showMessage('Игра запущена')
 		Thread(target=system, args=args).start()
 		
 
 
 if __name__ == '__main__':
+	if 'games' not in listdir():
+		mkdir('games')
 	app = QApplication(sys.argv)
 	gui = Ahsoka()
 	sys.exit(app.exec_())

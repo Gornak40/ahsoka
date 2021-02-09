@@ -1,4 +1,4 @@
 all:
-	venv/bin/pyinstaller --onefile ahsoka.py --noconsole --icon=icon.png
+	venv/bin/pyinstaller -F ahsoka.py --noconsole --icon=icon.png #--add-binary flashplayer;.
 	cp dist/* .
 	rm -Rvf dist/ build/ ahsoka.spec
