@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 	QVBoxLayout
 	)
 from PyQt5.QtGui import QIcon
-from os import listdir, remove, system, mkdir
+from os import listdir, remove, mkdir, path, popen
 from pprint import pprint
 from requests import get
 from fake_useragent import UserAgent
@@ -20,6 +20,14 @@ def getGamePath(game):
 	return f'games/{game.lower()}.swf'
 
 
+def libPath(file):
+	return path.join(path.join(sys._MEIPASS, 'lib'), file)
+
+
+def imgPath(file):
+	return path.join(path.join(sys._MEIPASS, 'img'), file)
+
+
 class Ahsoka(QWidget):
 	def __init__(self):
 		super().__init__()
@@ -29,7 +37,7 @@ class Ahsoka(QWidget):
 
 	def init(self):
 		self.setWindowTitle('Ahsoka')
-		self.setWindowIcon(QIcon('icon.png'))
+		self.setWindowIcon(QIcon(imgPath('icon.png')))
 		self.urlLabel = QLabel('Ссылка:')
 		self.nameLabel = QLabel('Название:')
 		self.urlEdit = QLineEdit()
@@ -117,15 +125,16 @@ class Ahsoka(QWidget):
 		game = self.gamesList.currentItem()
 		if game is None:
 			return
-		args = f'./flashplayer \"{getGamePath(game.text())}\"',
+		engine = libPath(('flashplayer' if sys.platform == 'linux' else 'flashplayer.exe'))
+		args = f'{engine} \"{getGamePath(game.text())}\"',
 		self.statusBar.showMessage('Игра запущена')
-		Thread(target=system, args=args).start()
+		Thread(target=popen, args=args).start()
 		
 
 
 if __name__ == '__main__':
 	if 'games' not in listdir():
-		mkdir('games')
+		mkdir('games/lib')
 	app = QApplication(sys.argv)
 	gui = Ahsoka()
 	sys.exit(app.exec_())
