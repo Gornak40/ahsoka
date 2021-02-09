@@ -3,10 +3,14 @@
 
 ![image](https://github.com/Gornak40/ahsoka/raw/master/examples/intro.png)
 ### Install
+* you can download the latest binary release or build it yourself
+* ```virtualenv venv```
+* ```source venv/bin/activate```
 * ```pip install -r requirements.txt```
+* ```make```
 * ```mkdir games```
 ### Usage
-* ```./ahsoka.py```
+* ```./ahsoka``` on *Linux* or ```ashoka.exe``` on *Windows*
 * can type url on website, where *.swf* is placedy
 * type the name of the game for simpler usage *(optional)*
 * click *Download* button to start downloading
