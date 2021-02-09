@@ -108,6 +108,8 @@ class Ahsoka(QWidget):
 		self.statusBar.showMessage('Игра удалена')
 
 	def play(self):
+	#	engine = self.enginesBox.currentItem()
+	#	print(engine)
 		game = self.gamesList.currentItem()
 		if game is None:
 			return
