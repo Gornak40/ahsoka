@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 	QVBoxLayout
 	)
 from PyQt5.QtGui import QIcon
-from os import listdir, remove
+from os import listdir, remove, system
 from pprint import pprint
 from requests import get
 from fake_useragent import UserAgent
@@ -17,7 +17,7 @@ from threading import Thread
 
 
 def getGamePath(game):
-	return f'games/{game.text().lower()}.swf'
+	return f'games/{game.lower()}.swf'
 
 
 class Ahsoka(QWidget):
@@ -45,6 +45,7 @@ class Ahsoka(QWidget):
 		self.enginesBox = QGroupBox('Движки')
 		self.setEngines()
 		self.playBtn = QPushButton('Играть')
+		self.playBtn.clicked.connect(self.play)
 		self.statusBar = QStatusBar()
 		self.statusBar.setStyleSheet('color: green')
 		self.statusBar.showMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka!')
@@ -87,7 +88,7 @@ class Ahsoka(QWidget):
 
 	def downloadGame(self):
 		url = self.urlEdit.text()
-		name = self.nameEdit.text().lower()
+		name = self.nameEdit.text()
 		req = get(url)
 		self.statusBar.showMessage(str(req))
 		html = req.content.decode('utf-8')
@@ -95,16 +96,24 @@ class Ahsoka(QWidget):
 		swf = urljoin(url, swf)
 		self.statusBar.showMessage('Скачивание...')
 		args = swf,
-		kwargs = {'out': 'games/'} if not name else {'out': f'games/{name}.swf'}
+		kwargs = {'out': 'games/'} if not name else {'out': getGamePath(name)}
 		Thread(target=self.wget, args=args, kwargs=kwargs).start()
 
 	def delGame(self):
 		game = self.gamesList.currentItem()
 		if game is None:
 			return
-		remove(getGamePath(game))
+		remove(getGamePath(game.text()))
 		self.setGames()
 		self.statusBar.showMessage('Игра удалена')
+
+	def play(self):
+		game = self.gamesList.currentItem()
+		if game is None:
+			return
+		args = f'engines/flashplayer \"{getGamePath(game.text())}\"',
+		self.statusBar.showMessage('Игра запущена')
+		Thread(target=system, args=args).start()
 		
 
 
