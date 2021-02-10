@@ -7,8 +7,7 @@
 * ```virtualenv venv```
 * ```source venv/bin/activate```
 * ```pip install -r requirements.txt```
-* ```make```
-* ```mkdir games```
+* ```make linux-dll``` or ```make windows-dll``` you can also use ```one``` postfix
 ### Usage
 * ```./ahsoka``` on *Linux* or ```ashoka.exe``` on *Windows*
 * can type url on website, where *.swf* is placedy
