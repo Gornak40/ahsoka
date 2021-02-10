@@ -21,11 +21,13 @@ def getGamePath(game):
 
 
 def libPath(file):
-	return path.join(path.join(sys._MEIPASS, 'lib'), file)
+	return path.join('lib', file)
+#	return path.join(path.join(sys._MEIPASS, 'lib'), file)
 
 
 def imgPath(file):
-	return path.join(path.join(sys._MEIPASS, 'img'), file)
+	return path.join('img', file)
+#	return path.join(path.join(sys._MEIPASS, 'img'), file)
 
 
 class Ahsoka(QWidget):
@@ -134,7 +136,7 @@ class Ahsoka(QWidget):
 
 if __name__ == '__main__':
 	if 'games' not in listdir():
-		mkdir('games/lib')
+		mkdir('games')
 	app = QApplication(sys.argv)
 	gui = Ahsoka()
 	sys.exit(app.exec_())
