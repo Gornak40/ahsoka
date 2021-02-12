@@ -45,21 +45,32 @@ class Ahsoka(QWidget):
 		self.urlEdit = QLineEdit()
 		self.nameEdit = QLineEdit()
 		self.downloadBtn = QPushButton('Скачать')
-		self.downloadBtn.clicked.connect(self.downloadGame)
 		self.updateBtn = QPushButton('Обновить')
-		self.updateBtn.clicked.connect(self.setGames)
 		self.gamesList = QListWidget()
-		self.gamesList.setVerticalScrollBar(QScrollBar())
-		self.setGames()
 		self.enginesBox = QGroupBox('Движки')
-		self.setEngines()
 		self.playBtn = QPushButton('Играть')
-		self.playBtn.clicked.connect(self.play)
 		self.delBtn = QPushButton('Удалить')
-		self.delBtn.clicked.connect(self.delGame)
 		self.statusBar = QStatusBar()
+		self.connectAll()
+
+	def successMessage(self, message):
 		self.statusBar.setStyleSheet('color: green')
-		self.statusBar.showMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka')
+		self.statusBar.showMessage(message)
+
+	def errorMessage(self, message):
+		self.statusBar.setStyleSheet('color: red')
+		self.statusBar.showMessage(message)
+
+	def connectAll(self):
+		self.downloadBtn.clicked.connect(self.downloadGame)
+		self.updateBtn.clicked.connect(self.setGames)
+		self.gamesList.setVerticalScrollBar(QScrollBar())
+		self.setEngines()
+		self.setGames()
+		self.playBtn.clicked.connect(self.play)
+		self.delBtn.clicked.connect(self.delGame)
+		self.successMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka')
+		
 
 	def place(self):
 		self.grid = QGridLayout()
@@ -96,7 +107,7 @@ class Ahsoka(QWidget):
 		self.setGames()
 		self.urlEdit.clear()
 		self.nameEdit.clear()
-		self.statusBar.showMessage('Загрузка завершена')
+		self.successMessage('Загрузка завершена')
 
 	def downloadGame(self):
 		try:
@@ -112,15 +123,14 @@ class Ahsoka(QWidget):
 				swf = findall(r'\".[^"]+\.swf\"', html)[0][1:-1]
 				swf = urljoin(url, swf)
 			print(swf)
-			self.statusBar.showMessage('Скачивание...')
+			self.successMessage('Скачивание...')
 			args = swf,
 			kwargs = {'out': 'games/'} if not name else {'out': getGamePath(name)}
 			Thread(target=self.wget, args=args, kwargs=kwargs).start()
 		except Exception as Exc:
 			print(Exc)
 			self.urlEdit.clear()
-			self.nameEdit.clear()
-			self.statusBar.showMessage('Попробуйте другую ссылку')
+			self.errorMessage('Попробуйте другую ссылку')
 
 	def delGame(self):
 		game = self.gamesList.currentItem()
@@ -128,7 +138,7 @@ class Ahsoka(QWidget):
 			return
 		remove(getGamePath(game.text()))
 		self.setGames()
-		self.statusBar.showMessage('Игра удалена')
+		self.successMessage('Игра удалена')
 
 	def play(self):
 	#	engine = self.enginesBox.currentItem()
