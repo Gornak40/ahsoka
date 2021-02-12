@@ -99,22 +99,28 @@ class Ahsoka(QWidget):
 		self.statusBar.showMessage('Загрузка завершена')
 
 	def downloadGame(self):
-		url = swf = self.urlEdit.text().strip()
-		name = self.nameEdit.text().strip()
-		if not url.endswith('.swf'):
-			req = get(url)
-			self.statusBar.showMessage(str(req))
-			try:
-				html = req.content.decode('utf-8')
-			except:
-				html = req.content.decode('cp1251')
-			swf = findall(r'\".[^"]+\.swf\"', html)[0][1:-1]
-			swf = urljoin(url, swf)
-		print(swf)
-		self.statusBar.showMessage('Скачивание...')
-		args = swf,
-		kwargs = {'out': 'games/'} if not name else {'out': getGamePath(name)}
-		Thread(target=self.wget, args=args, kwargs=kwargs).start()
+		try:
+			url = swf = self.urlEdit.text().strip()
+			name = self.nameEdit.text().strip()
+			if not url.endswith('.swf'):
+				req = get(url)
+				self.statusBar.showMessage(str(req))
+				try:
+					html = req.content.decode('utf-8')
+				except:
+					html = req.content.decode('cp1251')
+				swf = findall(r'\".[^"]+\.swf\"', html)[0][1:-1]
+				swf = urljoin(url, swf)
+			print(swf)
+			self.statusBar.showMessage('Скачивание...')
+			args = swf,
+			kwargs = {'out': 'games/'} if not name else {'out': getGamePath(name)}
+			Thread(target=self.wget, args=args, kwargs=kwargs).start()
+		except Exception as Exc:
+			print(Exc)
+			self.urlEdit.clear()
+			self.nameEdit.clear()
+			self.statusBar.showMessage('Попробуйте другую ссылку')
 
 	def delGame(self):
 		game = self.gamesList.currentItem()
