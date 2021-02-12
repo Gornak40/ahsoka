@@ -71,7 +71,6 @@ class Ahsoka(QWidget):
 		self.delBtn.clicked.connect(self.delGame)
 		self.successMessage('Добро пожаловать в лучший лаунчер флешек Ahsoka')
 		
-
 	def place(self):
 		self.grid = QGridLayout()
 		self.grid.setSpacing(5)
@@ -141,8 +140,6 @@ class Ahsoka(QWidget):
 		self.successMessage('Игра удалена')
 
 	def play(self):
-	#	engine = self.enginesBox.currentItem()
-	#	print(engine)
 		game = self.gamesList.currentItem()
 		if game is None:
 			return
@@ -150,7 +147,6 @@ class Ahsoka(QWidget):
 		args = f'{engine} \"{getGamePath(game.text())}\"',
 		self.statusBar.showMessage('Игра запущена')
 		Thread(target=popen, args=args).start()
-		
 
 
 if __name__ == '__main__':
